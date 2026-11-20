@@ -1,0 +1,26 @@
+[project]
+name = "defectvision-ml"
+version = "0.1.0"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+  "anomalib==2.7.0",
+  "torch==2.13.0",
+  "torchvision==0.28.0",
+  "pyyaml",
+]
+
+[dependency-groups]
+dev = ["pytest"]
+serve = ["fastapi", "uvicorn", "sqlalchemy", "alembic", "pydantic-settings", "python-multipart", "reportlab", "httpx"]
+
+[tool.uv]
+environments = ["sys_platform == 'darwin' and platform_machine == 'arm64'", "sys_platform == 'linux' and platform_machine == 'x86_64'", "sys_platform == 'win32' and platform_machine == 'AMD64'"]
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform != 'darwin'" }]
+torchvision = [{ index = "pytorch-cpu", marker = "sys_platform != 'darwin'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
